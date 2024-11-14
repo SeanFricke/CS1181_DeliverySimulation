@@ -21,8 +21,19 @@ public class QueueEvent<T extends Deliverer> implements Comparable<QueueEvent<T>
         this.timestamp = timestamp;
     }
 
+    public void nextEvent() {
+        if (deliverer.getClass() == Truck.class) {
+
+        }
+    }
+
     @Override
     public int compareTo(QueueEvent<T> o) {
-        return Integer.compare(this.getTimestamp(), o.getTimestamp()) * -1;
+        return Integer.compare(this.getTimestamp(), o.getTimestamp());
+    }
+
+    @Override
+    public String toString() {
+        return "QueueEvent [deliverer=" + deliverer.toString() + ", timestamp=" + timestamp + "]";
     }
 }

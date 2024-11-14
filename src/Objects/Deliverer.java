@@ -25,4 +25,9 @@ public abstract class Deliverer {
     public int getInterval() {
         return interval;
     }
+
+    @Override
+    public String toString() {
+        return "[id=" + id + ", capacity=" + capacity + ", speed=" + speed + ", interval=" + interval + "]";
+    }
 }
