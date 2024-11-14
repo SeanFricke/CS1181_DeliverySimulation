@@ -28,6 +28,6 @@ public abstract class Deliverer {
 
     @Override
     public String toString() {
-        return "[id=" + id + ", capacity=" + capacity + ", speed=" + speed + ", interval=" + interval + "]";
+        return "[id=" + id + ", capacity=" + capacity + ", speed=" + speed + ", interval=" + interval;
     }
 }

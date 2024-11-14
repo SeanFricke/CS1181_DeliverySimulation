@@ -7,6 +7,6 @@ public class Drone extends Deliverer{
 
     @Override
     public String toString() {
-        return "Drone " + super.toString();
+        return "Drone " + super.toString() + "]";
     }
 }

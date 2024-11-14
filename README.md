@@ -1,4 +1,10 @@
 # Delivery Simulation
+## Synopsis
+Simulation to find optimal number of trucks vs drones.
+There will be a train running between start and end.
+Shortest delivery time is optimization value.
+Trucks and drones do not need to be considered for their return to start. Every 'delivery object' will make a single trip.
+
 ## Measurements
 ### Environment
 - 1,500 packages/day
