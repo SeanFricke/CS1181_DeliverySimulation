@@ -5,20 +5,29 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        PriorityQueue<QueueEvent<Deliverer>> mainQueue = new PriorityQueue<>();
-        Random rand = new Random();
+        int PACKAGES = 1000;
 
-        Truck testTruck;
+        final int numTrucks = PACKAGES / 10;
+
+        PriorityQueue<QueueEvent> mainQueue = new PriorityQueue<>();
+        int globalTime = 0;
+
+        Truck truck;
         for (int i = 0; i < 10; i++) {
-                testTruck = new Truck(i);
-                QueueEvent<Deliverer> event = new QueueEvent<>(testTruck, rand.nextInt(200));
-                System.out.println(event);
-                mainQueue.add(event);
-        }
+            globalTime = 15 * i;
+            truck = new Truck(i);
+            System.out.printf("Truck %d has been created at %d\n", i, globalTime);
+            QueueEvent event = new QueueEvent(truck, globalTime + 100);
+            mainQueue.add(event);
+            if (mainQueue.peek().getTimestamp() <= globalTime + 15) {
+                QueueEvent nextEvent = mainQueue.poll();
+                globalTime = nextEvent.getTimestamp();
+                if (nextEvent.getTruck().getCurrentState() != Truck.truckState.TRUCK_END) {
+                    nextEvent.nextEvent();
+                    mainQueue.offer(nextEvent);
+                }
+            }
 
-        System.out.println("--- Pop Test ---");
-        while(!mainQueue.isEmpty()) {
-            System.out.println(mainQueue.poll());
         }
     }
 }

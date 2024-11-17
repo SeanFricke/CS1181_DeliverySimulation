@@ -1,0 +1,68 @@
+# Delivery Simulation
+## Synopsis 
+Simulation to find optimal number of trucks vs drones.
+There will be a train running between start and end.
+Shortest delivery time is optimization value.
+Trucks and drones do not need to be considered for their return to start. Every 'delivery object' will make a single trip.
+
+## Metrics
+### Environment
+1,500 packages daily
+30,000 'unit' travel path
+3,000 'units' from start to train tracks
+27,000 'units' from tracks to end
+
+### Trucks 
+10 package capacity
+30 units/min speed
+15 min departure interval
+
+### Drones
+1 package capacity
+300 units/min speed
+3 min departure interval
+
+## Train Schedule
+text file of space seperated values
+List of every train stop to the tracks
+First number is timestamp (in min) of stops
+Second number is duration (in min) of stops
+Timestamp of stop end is [value 1 + value 2]
+
+## Simulation variables
+### Percent of drones
+A variable called PERCENT_BY_DRONE that indicated percentage of drones in play (out of all packages delivered)
+Number of packages times percent (or the remaining percent for trucks) is the number of drones (or trucks) that will need to be in the sim
+Round up if uneven.
+
+## Truck Calculations
+Discrete event simulation must be used
+Events include:
+### TRUCK_START
+Event happens at departure
+First truck starts at 0.0, and then intervals from then.
+Next event calculated with distance from start to tracks.
+### TRUCK_AT_CROSSING
+Event happens when reaching tracks
+If no train blocking the cross, continue immediately
+If train is stopped, or there is currently a line of trucks still yet to cross, wait.
+Add waiting trucks to FIFO structure.
+Trucks go in intervals of 1 min as they leave the line and cross.
+First truck leaves line 1 min after train leaves.
+### TRUCK_CROSS
+Event happens when tracks are crossed (immediately after TRUCK_AT_CROSSING or after it leaves the line) 
+Same as TRUCK_START in the calculation till next event.
+### TRUCK_END
+Event Happens when truck reaches the end.
+### Other info
+Trucks must be stored in a priority queue that is sorted by next event time.
+Once event is reached, do code and put back in the queue with updated info for the next event.
+Train events take priority over truck events
+TRUCK_AT_CROSSING logic takes priority over TRUCK_CROSS logic if at same time.
+
+## Drone Calculations
+Total time for one drone to complete trip
+Total time for all drones to complete trip. Drones can be ran in parallel.
+First drone takes off at 0.0, and intervals after.
+Simple calculation to end since no train logic is needed
+

@@ -1,17 +1,15 @@
 package Objects;
 
-import java.io.Serializable;
-
-public class QueueEvent<T extends Deliverer> implements Comparable<QueueEvent<T>> {
-    private final T deliverer;
+public class QueueEvent implements Comparable<QueueEvent> {
+    private final Truck truck;
     private int timestamp;
 
-    public QueueEvent(T deliverer, int timestamp) {
-        this.deliverer = deliverer;
+    public QueueEvent(Truck truck, int timestamp) {
+        this.truck = truck;
         this.timestamp = timestamp;
     }
-    public T getDeliverer() {
-        return deliverer;
+    public Truck getTruck() {
+        return truck;
     }
     public int getTimestamp() {
         return timestamp;
@@ -22,34 +20,36 @@ public class QueueEvent<T extends Deliverer> implements Comparable<QueueEvent<T>
     }
 
     public void nextEvent() {
-        if (deliverer.getClass() == Truck.class) {
-            switch (((Truck) deliverer).getCurrentState()){
-                case TRUCK_START:
-                    System.out.printf("Truck %d at crossing at minute %d\n", deliverer.getId(), timestamp);
-                    ((Truck) deliverer).setCurrentState(Truck.truckState.TRUCK_AT_CROSSING);
-                    break;
-                case TRUCK_AT_CROSSING:
-                    System.out.printf("Truck %d crossing tracks at minute %d\n", deliverer.getId(), timestamp);
-                    // TODO Train track logic
-                    ((Truck) deliverer).setCurrentState(Truck.truckState.TRUCK_CROSS);
-                    timestamp += 900;
-                    break;
-                case TRUCK_CROSS:
-                    System.out.printf("Truck %d at destination at minute %d\n", deliverer.getId(), timestamp);
-                    ((Truck) deliverer).setCurrentState(Truck.truckState.TRUCK_END);
-                    // TODO End of trip stats/logging
-                    break;
-            }
+        switch (truck.getCurrentState()){
+            // Calculations when truck at crossing
+            case TRUCK_START:
+                System.out.printf("Truck %d at crossing at minute %d\n", truck.getId(), timestamp);
+                truck.setCurrentState(Truck.truckState.TRUCK_AT_CROSSING);
+                // TODO Train track logic
+                timestamp += 50;
+                break;
+            // Calculations when truck passes tracks
+            case TRUCK_AT_CROSSING:
+                System.out.printf("Truck %d crossing tracks at minute %d\n", truck.getId(), timestamp);
+                truck.setCurrentState(Truck.truckState.TRUCK_CROSS);
+                timestamp += 900;
+                break;
+            // Calculation when truck ends.
+            case TRUCK_CROSS:
+                System.out.printf("Truck %d at destination at minute %d\n", truck.getId(), timestamp);
+                truck.setCurrentState(Truck.truckState.TRUCK_END);
+                // TODO End of trip stats/logging
+                break;
         }
     }
 
     @Override
-    public int compareTo(QueueEvent<T> o) {
+    public int compareTo(QueueEvent o) {
         return Integer.compare(this.getTimestamp(), o.getTimestamp());
     }
 
     @Override
     public String toString() {
-        return "QueueEvent [deliverer=" + deliverer.toString() + ", timestamp=" + timestamp + "]";
+        return "QueueEvent [deliverer=" + truck.toString() + ", timestamp=" + timestamp + "]";
     }
 }
