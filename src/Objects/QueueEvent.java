@@ -3,11 +3,14 @@ package Objects;
 public class QueueEvent implements Comparable<QueueEvent> {
     private final Truck truck;
     private int timestamp;
+    static int firstHalfDistance = 3_000;
+    static int secondHalfDistance = 27_000;
 
-    public QueueEvent(Truck truck, int timestamp) {
+    public QueueEvent(Truck truck, int constructTimestamp) {
         this.truck = truck;
-        this.timestamp = timestamp;
+        this.timestamp = constructTimestamp + firstHalfDistance / Truck.speed;
     }
+
     public Truck getTruck() {
         return truck;
     }
@@ -17,6 +20,10 @@ public class QueueEvent implements Comparable<QueueEvent> {
 
     public void setTimestamp(int timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public static void setDistances(int firstDistance, int secondDistance) {
+        firstHalfDistance = firstDistance;
     }
 
     public void nextEvent() {
@@ -32,7 +39,7 @@ public class QueueEvent implements Comparable<QueueEvent> {
             case TRUCK_AT_CROSSING:
                 System.out.printf("Truck %d crossing tracks at minute %d\n", truck.getId(), timestamp);
                 truck.setCurrentState(Truck.truckState.TRUCK_CROSS);
-                timestamp += 900;
+                timestamp += secondHalfDistance / Truck.speed;
                 break;
             // Calculation when truck ends.
             case TRUCK_CROSS:

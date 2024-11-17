@@ -1,6 +1,8 @@
 package Objects;
 
 public class Truck extends Deliverer{
+    public static final int capacity = 10, speed = 30, interval = 15;
+
     public enum truckState {
         TRUCK_START,
         TRUCK_AT_CROSSING,
@@ -11,7 +13,7 @@ public class Truck extends Deliverer{
     private truckState currentEvent;
 
     public Truck(int id) {
-        super(id, 10, 30, 15);
+        super(id,capacity,speed,interval);
         currentEvent = truckState.TRUCK_START;
     }
 

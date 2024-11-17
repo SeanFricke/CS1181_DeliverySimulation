@@ -27,7 +27,7 @@ Trucks and drones do not need to be considered for their return to start. Every 
 - Discrete event simulation must be used
 - Events to be used:
   - `TRUCK_START` 
-    - Starts at 0.0, and intervals afterwards
+    - Starts at 0.0, and intervals afterward
     - Simple mathematical distance calc to determine next event
   - `TRUCK_AT_CROSSING`
     - If no train blocking crossing, immediately go to next event

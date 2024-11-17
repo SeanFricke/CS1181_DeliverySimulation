@@ -1,8 +1,10 @@
 package Objects;
 
 public class Drone extends Deliverer{
+    public static final int capacity = 500, speed = 1, interval = 3;
+
     public Drone(int id) {
-        super(id, 1, 500, 3);
+        super(id, capacity, speed, interval);
     }
 
     @Override

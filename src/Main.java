@@ -5,27 +5,38 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        int PACKAGES = 1000;
+        int PACKAGES = 1_000;
+        final int TOTAL_DISTANCE = 30_000;
 
-        final int numTrucks = PACKAGES / 10;
+
+        final int numTrucks = PACKAGES / Truck.capacity;
 
         PriorityQueue<QueueEvent> mainQueue = new PriorityQueue<>();
         int globalTime = 0;
 
         Truck truck;
-        for (int i = 0; i < 10; i++) {
-            globalTime = 15 * i;
-            truck = new Truck(i);
-            System.out.printf("Truck %d has been created at %d\n", i, globalTime);
-            QueueEvent event = new QueueEvent(truck, globalTime + 100);
-            mainQueue.add(event);
-            if (mainQueue.peek().getTimestamp() <= globalTime + 15) {
+        int truckCounter = 0;
+        while (PACKAGES > 0) {
+            if  (truckCounter < numTrucks) {
+                truck = new Truck(truckCounter);
+                globalTime = truckCounter * Truck.interval;
+                System.out.printf("Truck %d has been created at %d\n", truckCounter, globalTime);
+                QueueEvent event = new QueueEvent(truck, globalTime);
+                mainQueue.add(event);
+                truckCounter++;
+            }
+
+            if (mainQueue.peek().getTimestamp() <= globalTime + Truck.interval) {
                 QueueEvent nextEvent = mainQueue.poll();
                 globalTime = nextEvent.getTimestamp();
-                if (nextEvent.getTruck().getCurrentState() != Truck.truckState.TRUCK_END) {
-                    nextEvent.nextEvent();
+                nextEvent.nextEvent();
+                if (nextEvent.getTruck().getCurrentState() == Truck.truckState.TRUCK_END) {
+                    PACKAGES -= Truck.capacity;
+                    System.out.printf("Packages left: %d\n", PACKAGES);
+                } else {
                     mainQueue.offer(nextEvent);
                 }
+
             }
 
         }
