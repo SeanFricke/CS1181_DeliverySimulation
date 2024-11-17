@@ -1,10 +1,11 @@
+import Datatypes.QueueEvent;
 import Objects.*;
 
+import java.io.FileNotFoundException;
 import java.util.PriorityQueue;
-import java.util.Random;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         int PACKAGES = 1_000;
         final int TOTAL_DISTANCE = 30_000;
 
@@ -12,6 +13,7 @@ public class Main {
         final int numTrucks = PACKAGES / Truck.capacity;
 
         PriorityQueue<QueueEvent> mainQueue = new PriorityQueue<>();
+        Train train = new Train();
         int globalTime = 0;
 
         Truck truck;
@@ -32,7 +34,6 @@ public class Main {
                 nextEvent.nextEvent();
                 if (nextEvent.getTruck().getCurrentState() == Truck.truckState.TRUCK_END) {
                     PACKAGES -= Truck.capacity;
-                    System.out.printf("Packages left: %d\n", PACKAGES);
                 } else {
                     mainQueue.offer(nextEvent);
                 }

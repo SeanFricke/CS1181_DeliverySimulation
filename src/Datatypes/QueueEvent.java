@@ -1,4 +1,6 @@
-package Objects;
+package Datatypes;
+
+import Objects.Truck;
 
 public class QueueEvent implements Comparable<QueueEvent> {
     private final Truck truck;
