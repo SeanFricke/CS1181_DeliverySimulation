@@ -4,7 +4,7 @@ import Objects.Truck;
 import GlobalVars.Config;
 
 
-public class TruckEvent extends EventType implements Comparable<TruckEvent> {
+public class TruckEvent extends EventType{
     private final Truck truck;
 
     public TruckEvent(Truck truck, int constructTimestamp) {
@@ -23,7 +23,7 @@ public class TruckEvent extends EventType implements Comparable<TruckEvent> {
                 System.out.printf("Truck %d at crossing at minute %d\n", truck.getId(), getTimestamp());
                 truck.setCurrentState(Truck.truckState.TRUCK_AT_CROSSING);
                 // TODO Train track logic
-                addTimestamp(Config.FIRST_HALF_DISTANCE);
+                addTimestamp(90);
                 break;
             // Calculations when truck passes tracks
             case TRUCK_AT_CROSSING:
@@ -38,11 +38,6 @@ public class TruckEvent extends EventType implements Comparable<TruckEvent> {
                 // TODO End of trip stats/logging
                 break;
         }
-    }
-
-    @Override
-    public int compareTo(TruckEvent o) {
-        return Integer.compare(this.getTimestamp(), o.getTimestamp());
     }
 
     @Override

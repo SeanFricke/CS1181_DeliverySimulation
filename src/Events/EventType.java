@@ -1,6 +1,6 @@
 package Events;
 
-public abstract class EventType {
+public abstract class EventType  implements Comparable<EventType> {
     private int timeStamp;
 
     public EventType(int timeStamp) {
@@ -17,5 +17,10 @@ public abstract class EventType {
 
     public void addTimestamp(int time) {
         this.timeStamp += time;
+    }
+
+    @Override
+    public int compareTo(EventType o) {
+        return Integer.compare(this.getTimestamp(), o.getTimestamp());
     }
 }
