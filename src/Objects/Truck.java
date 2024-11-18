@@ -18,7 +18,6 @@ public class Truck extends Deliverer{
     }
 
     public truckState getCurrentState() {
-
         return currentEvent;
     }
 
