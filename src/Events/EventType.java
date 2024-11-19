@@ -12,7 +12,7 @@ public abstract class EventType  implements Comparable<EventType> {
     }
 
     public void setTimestamp(int timestamp) {
-        this.timeStamp = timeStamp;
+        this.timeStamp = timestamp;
     }
 
     public void addTimestamp(int time) {
