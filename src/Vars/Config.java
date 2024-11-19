@@ -1,4 +1,4 @@
-package GlobalVars;
+package Vars;
 
 public class Config {
     public static int

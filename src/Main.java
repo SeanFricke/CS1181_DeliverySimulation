@@ -1,19 +1,17 @@
 import Events.*;
-import GlobalVars.Config;
+import Vars.*;
 import Objects.*;
 import Datatypes.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayDeque;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
+    private static PriorityQueue<EventType> mainQueue = new PriorityQueue<>();
+    private static LinkedList<Truck> crossingQueue = new LinkedList<>();
 
     public static <TruckEven> void main(String[] args) throws FileNotFoundException {
-        PriorityQueue<EventType> mainQueue = new PriorityQueue<>();
         Queue<TrainBlock> trainSchedule = initTrain();
 
         // Truck Spawn Event Creation
@@ -23,6 +21,9 @@ public class Main {
             mainQueue.offer(truckSpawnEvent);
         }
 
+        // TODO Train Start/End Event creation
+
+        // EVENT LOOP
         while (Config.PACKAGES > 0) {
             // Truck Spawning
             if (mainQueue.peek() instanceof TruckSpawnEvent) {
@@ -32,17 +33,42 @@ public class Main {
 
             // Truck State calculations
             } else if (mainQueue.peek() instanceof TruckEvent) {
-
+                // Change to next state
                 TruckEvent truckEvent = (TruckEvent) mainQueue.poll();
-                truckEvent.nextEvent();
-                if (truckEvent.getTruck().getCurrentState() == Truck.truckState.TRUCK_END) {
-                    Config.PACKAGES -= Truck.capacity;
-                } else {
-                    mainQueue.offer(truckEvent);
-                }
-
+                nextEvent(truckEvent);
             }
 
+        }
+    }
+
+    public static void nextEvent(TruckEvent truckEvent ) {
+        Truck truck = truckEvent.getTruck();
+        // State Logics
+        switch (truck.getCurrentState()){
+            // Calculations when truck at crossing
+            case TRUCK_START:
+                System.out.printf("Truck %d at crossing at minute %d\n", truck.getId(), truckEvent.getTimestamp());
+                truck.setCurrentState(Truck.truckState.TRUCK_AT_CROSSING);
+                if (GlobalVars.tracksOccupied || !crossingQueue.isEmpty() ) {
+                    crossingQueue.add(truck);
+                } else {
+                    nextEvent(truckEvent); // RECURSION!!!!
+                }
+                break;
+            // Calculations when truck passes tracks
+            case TRUCK_AT_CROSSING:
+                System.out.printf("Truck %d crossing tracks at minute %d\n", truck.getId(), truckEvent.getTimestamp());
+                truck.setCurrentState(Truck.truckState.TRUCK_CROSS);
+                truckEvent.addTimestamp(Config.SECOND_HALF_DISTANCE / Truck.speed);
+                mainQueue.offer(truckEvent);
+                break;
+            // Calculation when truck ends.
+            case TRUCK_CROSS:
+                System.out.printf("Truck %d at destination at minute %d\n", truck.getId(), truckEvent.getTimestamp());
+                truck.setCurrentState(Truck.truckState.TRUCK_END);
+                Config.PACKAGES -= Truck.capacity;
+                // TODO End of trip stats/logging
+                break;
         }
     }
 
