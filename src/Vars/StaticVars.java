@@ -3,10 +3,13 @@ package Vars;
 import Events.TruckEvent;
 import Objects.Drone;
 
+/**
+ * Static Vars that can be calculated right away or with the config file. These should not be changed.
+ */
 public class StaticVars {
+
     // Private for calculation simplicity
-    // TODO change both to private
-    public static final int DRONE_PACKAGES = (int) Math.ceil(Config.getPACKAGES() * (Config.PERCENT_BY_DRONE/100.0));
+    private static final int DRONE_PACKAGES = (int) Math.ceil(Config.getPACKAGES() * (Config.PERCENT_BY_DRONE/100.0));
     private static final int TRUCK_PACKAGES = Config.getPACKAGES() - DRONE_PACKAGES;
 
     // Global and public, but immutable. For all files to use
@@ -23,5 +26,8 @@ public class StaticVars {
     // Global, public AND mutable, but it is a simple boolean with no constraints
     public static boolean tracksOccupied = false;
 
-    // Simple Stat
+    // Drone Package getter
+    public static int getDronePackages() {
+        return DRONE_PACKAGES;
+    }
 }
