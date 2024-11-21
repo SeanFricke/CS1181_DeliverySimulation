@@ -1,14 +1,8 @@
 package Objects;
 
-public class Drone extends Deliverer{
-    public static final int capacity = 500, speed = 1, interval = 3;
+import Vars.Config;
+import Vars.StaticVars;
 
-    public Drone(int id) {
-        super(id, capacity, speed, interval);
-    }
-
-    @Override
-    public String toString() {
-        return "Drone " + super.toString() + "]";
-    }
+public class Drone {
+    public static final int capacity = 1, speed = 500, interval = 3;
 }

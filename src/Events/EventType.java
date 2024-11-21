@@ -1,26 +1,26 @@
 package Events;
 
 public abstract class EventType  implements Comparable<EventType> {
-    private int timeStamp;
+    private double timeStamp;
 
-    public EventType(int timeStamp) {
+    public EventType(double timeStamp) {
         this.timeStamp = timeStamp;
     }
 
-    public int getTimestamp() {
+    public double getTimestamp() {
         return timeStamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(double timestamp) {
         this.timeStamp = timestamp;
     }
 
-    public void addTimestamp(int time) {
+    public void addTimestamp(double time) {
         this.timeStamp += time;
     }
 
     @Override
     public int compareTo(EventType o) {
-        return Integer.compare(this.getTimestamp(), o.getTimestamp());
+        return Double.compare(this.getTimestamp(), o.getTimestamp());
     }
 }

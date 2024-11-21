@@ -1,20 +1,17 @@
 package Events;
 
-import Objects.Truck;
-
 public class TruckSpawnEvent extends EventType{
 
 
     private int TruckID;
 
-    public TruckSpawnEvent(int ID, int timeStamp) {
+    public TruckSpawnEvent(int ID, double timeStamp) {
         super(timeStamp);
         TruckID = ID;
     }
 
     public TruckEvent spawnTruckEvent(){
-        Truck tempTruck = new Truck(TruckID);
-        return new TruckEvent(tempTruck, getTimestamp());
+        return new TruckEvent(getTimestamp(), TruckID);
     }
 
     public int getTruckID() {

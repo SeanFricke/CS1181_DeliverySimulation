@@ -1,25 +1,42 @@
 package Events;
 
-import Objects.Truck;
 import Vars.*;
 
-import java.util.LinkedList;
-
-
 public class TruckEvent extends EventType{
-    private final Truck truck;
+    public static final int capacity = 10, speed = 30, interval = 15;
 
-    public TruckEvent(Truck truck, int constructTimestamp) {
-        super(constructTimestamp + Config.FIRST_HALF_DISTANCE / Truck.speed);
-        this.truck = truck;
+    public final double constructTime;
+    private final int id;
+    private truckState currentEvent;
+
+    public enum truckState {
+        TRUCK_START,
+        TRUCK_AT_CROSSING,
+        TRUCK_CROSS,
+        TRUCK_END
     }
 
-    public Truck getTruck() {
-        return truck;
+    public TruckEvent(double constructTimestamp, int id) {
+        super(constructTimestamp + (double) Config.FIRST_HALF_DISTANCE / speed);
+        this.id = id;
+        currentEvent = truckState.TRUCK_START;
+        constructTime = constructTimestamp;
     }
 
-    @Override
-    public String toString() {
-        return "TruckEvent [deliverer=" + truck.toString() + ", timestamp=" + getTimestamp() + "]";
+    public int getId() {
+        return id;
     }
+
+    public double getConstructTime() {
+        return constructTime;
+    }
+
+    public void setCurrentState(truckState currentEvent) {
+        this.currentEvent = currentEvent;
+    }
+
+    public truckState getCurrentState() {
+        return currentEvent;
+    }
+
 }

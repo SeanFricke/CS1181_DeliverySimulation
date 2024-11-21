@@ -50,3 +50,22 @@ Trucks and drones do not need to be considered for their return to start. Every 
 - Priority queue will have an event object inside it
 - Event objects will have a reference to the truck/drones object and a minute 'timestamp' of next event
 - Once a truck has a TRUCK_AT_CROSSING event, if there is a TRAIN_STOPPED event, wait until it is done
+
+## Final Touches
+### Logs
+- ~~Truck Start~~
+- ~~Truck Crossing~~
+- ~~Truck wait~~
+- ~~Truck end~~
+- ~~Train block~~
+- ~~Train leave~~
+### Stats
+- ~~Number of drones & trucks~~
+- ~~Full train schedule~~
+- ~~Total truck time~~
+- ~~Average trip time for trucks~~
+- ~~Total time for all trucks to deliver (last truck timestamp)~~
+- One drone time~~
+- Total time for all drones (last drone timestamp
+- Gross total time
+
