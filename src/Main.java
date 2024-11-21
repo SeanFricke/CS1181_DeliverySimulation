@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-// TODO Resources included Adrian, ANSI CODE table, and System.getProperty()
-
 /**
  * Truck and drone package delivery simulation with a train obstacle.<br>
  * All base variables for the simulation can be edited through the 'Config' class as well as 'TruckEvent' and 'Drone'.
@@ -26,6 +24,13 @@ import java.util.*;
  * </ul>
  */
 public class Main {
+
+    /*
+       Optimal drone percent:
+       PERCENT_BY_DRONE = 46%
+       for a total time 2130 minutes
+     */
+
     // Collection Inits (Event queue, crossing queue, and list of ended trucks)
     private static PriorityQueue<EventType> mainQueue = new PriorityQueue<>();
     private static LinkedList<TruckEvent> crossingQueue = new LinkedList<>();

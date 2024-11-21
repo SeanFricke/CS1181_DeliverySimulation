@@ -11,7 +11,7 @@ public class Config {
 
     // SCENARIO
     private static int PACKAGES = 1_500;
-    public static final int PERCENT_BY_DRONE = 25;
+    public static final int PERCENT_BY_DRONE = 45;
     public static final String TRAIN_SCHEDULE_FILE = "train_schedule.txt";
 
     // Getters and setters for packages (no need to mess with these)
